@@ -55,11 +55,11 @@ export function editor(
         case EDITOR_ADD_LINE: {
             const id = generateId()
             const { currentLine } = state
-            const lineIndex = state.lines.length
             const newState = { ...state }
-            newState.lines.push({ id, isFocused: true })
             newState.lines[currentLine].isFocused = false
-            newState.currentLine = lineIndex
+            newState.lines.splice(currentLine + 1, 0, { id, isFocused: true })
+            // newState.lines.push({ id, isFocused: true })
+            newState.currentLine = currentLine + 1
             return newState
         }
         case EDITOR_REMOVE_LINE: {
