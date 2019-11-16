@@ -1,0 +1,306 @@
+{
+  "service": {
+    "service": "writal",
+    "serviceObject": {
+      "name": "writal"
+    },
+    "provider": {
+      "stage": "production",
+      "variableSyntax": "\\${([ ~:a-zA-Z0-9._@'\",\\-\\/\\(\\)*]+?)}",
+      "name": "aws",
+      "runtime": "nodejs8.10",
+      "region": "us-east-1",
+      "versionFunctions": true,
+      "remoteFunctionData": null,
+      "compiledCloudFormationTemplate": {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "The AWS CloudFormation template for this Serverless application",
+        "Resources": {
+          "ServerlessDeploymentBucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+              "BucketEncryption": {
+                "ServerSideEncryptionConfiguration": [
+                  {
+                    "ServerSideEncryptionByDefault": {
+                      "SSEAlgorithm": "AES256"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "WebAppRecord": {
+            "DependsOn": [
+              "WebAppDistribution"
+            ],
+            "Type": "AWS::Route53::RecordSet",
+            "Properties": {
+              "AliasTarget": {
+                "DNSName": {
+                  "Fn::GetAtt": [
+                    "WebAppDistribution",
+                    "DomainName"
+                  ]
+                },
+                "HostedZoneId": "Z2FDTNDATAQYW2"
+              },
+              "HostedZoneName": "nikitas.link.",
+              "Name": "writal.",
+              "Type": "A"
+            }
+          },
+          "WebAppS3Bucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+              "BucketName": "writal",
+              "WebsiteConfiguration": {
+                "IndexDocument": "index.html",
+                "ErrorDocument": "index.html"
+              }
+            }
+          },
+          "WebAppS3BucketPolicy": {
+            "Type": "AWS::S3::BucketPolicy",
+            "Properties": {
+              "Bucket": {
+                "Ref": "WebAppS3Bucket"
+              },
+              "PolicyDocument": {
+                "Statement": [
+                  {
+                    "Sid": "PublicReadGetObject",
+                    "Effect": "Allow",
+                    "Principal": "*",
+                    "Action": [
+                      "s3:GetObject"
+                    ],
+                    "Resource": "arn:aws:s3:::writal/*",
+                    "Condition": {
+                      "StringLike": {
+                        "aws:UserAgent": "thismysecretuhhuh0110"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "WebAppDistribution": {
+            "Type": "AWS::CloudFront::Distribution",
+            "Properties": {
+              "DistributionConfig": {
+                "HttpVersion": "http2",
+                "Origins": [
+                  {
+                    "DomainName": "writal.s3-website.us-east-1.amazonaws.com",
+                    "Id": "S3-ID=writal",
+                    "OriginCustomHeaders": [
+                      {
+                        "HeaderName": "User-Agent",
+                        "HeaderValue": "thismysecretuhhuh0110"
+                      }
+                    ],
+                    "CustomOriginConfig": {
+                      "HTTPPort": 80,
+                      "HTTPSPort": 443,
+                      "OriginProtocolPolicy": "http-only"
+                    }
+                  }
+                ],
+                "Enabled": "true",
+                "Aliases": [
+                  "writal"
+                ],
+                "DefaultCacheBehavior": {
+                  "AllowedMethods": [
+                    "GET",
+                    "HEAD"
+                  ],
+                  "TargetOriginId": "S3-ID=writal",
+                  "ForwardedValues": {
+                    "QueryString": "false",
+                    "Cookies": {
+                      "Forward": "none"
+                    }
+                  },
+                  "ViewerProtocolPolicy": "allow-all"
+                },
+                "ViewerCertificate": {
+                  "AcmCertificateArn": "arn:aws:acm:us-east-1:863048840359:certificate/8424043c-df15-4009-84d3-8733d4962439",
+                  "SslSupportMethod": "sni-only",
+                  "MinimumProtocolVersion": "TLSv1.1_2016"
+                }
+              }
+            }
+          }
+        },
+        "Outputs": {
+          "ServerlessDeploymentBucketName": {
+            "Value": {
+              "Ref": "ServerlessDeploymentBucket"
+            }
+          }
+        }
+      },
+      "coreCloudFormationTemplate": {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "The AWS CloudFormation template for this Serverless application",
+        "Resources": {
+          "ServerlessDeploymentBucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+              "BucketEncryption": {
+                "ServerSideEncryptionConfiguration": [
+                  {
+                    "ServerSideEncryptionByDefault": {
+                      "SSEAlgorithm": "AES256"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "Outputs": {
+          "ServerlessDeploymentBucketName": {
+            "Value": {
+              "Ref": "ServerlessDeploymentBucket"
+            }
+          }
+        }
+      }
+    },
+    "custom": {
+      "account": "863048840359",
+      "cloudfront-app": {
+        "region": "us-east-1",
+        "bucketName": "writal",
+        "useragentsecret": "thismysecretuhhuh0110",
+        "acm-region": "us-east-1",
+        "certid": "8424043c-df15-4009-84d3-8733d4962439",
+        "logbucket": "1212.s3.amazonaws.com",
+        "logbucket-prefix": "production-writal",
+        "alias": "writal",
+        "hostedzonename": "nikitas.link"
+      }
+    },
+    "pluginsData": {},
+    "functions": {},
+    "resources": {
+      "Resources": {
+        "WebAppRecord": {
+          "DependsOn": [
+            "WebAppDistribution"
+          ],
+          "Type": "AWS::Route53::RecordSet",
+          "Properties": {
+            "AliasTarget": {
+              "DNSName": {
+                "Fn::GetAtt": [
+                  "WebAppDistribution",
+                  "DomainName"
+                ]
+              },
+              "HostedZoneId": "Z2FDTNDATAQYW2"
+            },
+            "HostedZoneName": "nikitas.link.",
+            "Name": "writal.",
+            "Type": "A"
+          }
+        },
+        "WebAppS3Bucket": {
+          "Type": "AWS::S3::Bucket",
+          "Properties": {
+            "BucketName": "writal",
+            "WebsiteConfiguration": {
+              "IndexDocument": "index.html",
+              "ErrorDocument": "index.html"
+            }
+          }
+        },
+        "WebAppS3BucketPolicy": {
+          "Type": "AWS::S3::BucketPolicy",
+          "Properties": {
+            "Bucket": {
+              "Ref": "WebAppS3Bucket"
+            },
+            "PolicyDocument": {
+              "Statement": [
+                {
+                  "Sid": "PublicReadGetObject",
+                  "Effect": "Allow",
+                  "Principal": "*",
+                  "Action": [
+                    "s3:GetObject"
+                  ],
+                  "Resource": "arn:aws:s3:::writal/*",
+                  "Condition": {
+                    "StringLike": {
+                      "aws:UserAgent": "thismysecretuhhuh0110"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "WebAppDistribution": {
+          "Type": "AWS::CloudFront::Distribution",
+          "Properties": {
+            "DistributionConfig": {
+              "HttpVersion": "http2",
+              "Origins": [
+                {
+                  "DomainName": "writal.s3-website.us-east-1.amazonaws.com",
+                  "Id": "S3-ID=writal",
+                  "OriginCustomHeaders": [
+                    {
+                      "HeaderName": "User-Agent",
+                      "HeaderValue": "thismysecretuhhuh0110"
+                    }
+                  ],
+                  "CustomOriginConfig": {
+                    "HTTPPort": 80,
+                    "HTTPSPort": 443,
+                    "OriginProtocolPolicy": "http-only"
+                  }
+                }
+              ],
+              "Enabled": "true",
+              "Aliases": [
+                "writal"
+              ],
+              "DefaultCacheBehavior": {
+                "AllowedMethods": [
+                  "GET",
+                  "HEAD"
+                ],
+                "TargetOriginId": "S3-ID=writal",
+                "ForwardedValues": {
+                  "QueryString": "false",
+                  "Cookies": {
+                    "Forward": "none"
+                  }
+                },
+                "ViewerProtocolPolicy": "allow-all"
+              },
+              "ViewerCertificate": {
+                "AcmCertificateArn": "arn:aws:acm:us-east-1:863048840359:certificate/8424043c-df15-4009-84d3-8733d4962439",
+                "SslSupportMethod": "sni-only",
+                "MinimumProtocolVersion": "TLSv1.1_2016"
+              }
+            }
+          }
+        }
+      },
+      "Outputs": {}
+    },
+    "serviceFilename": "serverless.yml",
+    "layers": {}
+  },
+  "package": {
+    "artifactDirectoryName": "serverless/writal/production/1573948494475-2019-11-16T23:54:54.475Z",
+    "artifact": ""
+  }
+}
