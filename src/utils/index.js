@@ -3,7 +3,7 @@ export function generateId(length = 8) {
     const charLength = chars.length
     let id = ''
     for (let i = 0; i < length; i += 1) {
-        id = `${id}${chars[Math.random() * charLength]}`
+        id = `${id}${chars[Math.floor(Math.random() * charLength)]}`
     }
     return id
 }
