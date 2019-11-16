@@ -4,6 +4,7 @@ import { generateId } from '../utils'
 import {
     EDITOR_ADD_LINE,
     EDITOR_REMOVE_LINE,
+    EDITOR_LINE_CHANGE,
 } from '../constants'
 
 const initialStates = {
@@ -11,8 +12,8 @@ const initialStates = {
         isMobile: false,
     },
     editor: {
-        lineMap: {'a': 0},
-        lines: [{ id: 'a'}],
+        currentLine: 0,
+        lines: [{ id: 'a', isFocused: true }],
     },
 }
 
@@ -31,22 +32,49 @@ export function editor(
     action,
 ) {
     switch (action.type) {
+        case EDITOR_LINE_CHANGE: {
+            const newState = { ...state }
+            const { id } = action.payload
+            let lineIndex = -1
+
+            for (let i = 0; i < state.lines.length; i += 1) {
+                if (state.lines[i].id === id) {
+                    lineIndex = i
+                    break
+                }
+            }
+
+            if (lineIndex === -1) {
+                return state
+            }
+
+            newState.currentLine = lineIndex
+            newState.lines[lineIndex].isFocused = true
+            return newState
+        }
         case EDITOR_ADD_LINE: {
             const id = generateId()
+            const { currentLine } = state
             const lineIndex = state.lines.length
             const newState = { ...state }
-            newState.lines.push({ id })
-            newState.lineMap[id] = lineIndex
+            newState.lines.push({ id, isFocused: true })
+            newState.lines[currentLine].isFocused = false
+            newState.currentLine = lineIndex
             return newState
         }
         case EDITOR_REMOVE_LINE: {
-            const { id } = action.payload
-            const lineIndex = state.lineMap[id]
+            if (state.lines.length === 1) {
+                // cannot remove a line if theres only one line
+                return state
+            }
+            const lineIndex = state.currentLine
+            const { id } = state.lines[lineIndex]
             const newState = { ...state }
             newState.lines.splice(lineIndex, 1)
-            delete newState.lineMap[id]
+            newState.currentLine = 0
+            newState.lines[0].isFocused = true
             return newState
-        } 
+        }
         default:
             return state
     }

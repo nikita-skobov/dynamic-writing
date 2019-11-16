@@ -1,6 +1,7 @@
 import {
     EDITOR_ADD_LINE,
     EDITOR_REMOVE_LINE,
+    EDITOR_LINE_CHANGE,
 } from '../constants'
 
 
@@ -10,9 +11,17 @@ export function addLine() {
     }
 }
 
-export function removeLine(id) {
+export function removeLine() {
     return {
         type: EDITOR_REMOVE_LINE,
-        payload: { id },
+    }
+}
+
+export function changeActiveLine(id) {
+    return {
+        type: EDITOR_LINE_CHANGE,
+        payload: {
+            id,
+        },
     }
 }

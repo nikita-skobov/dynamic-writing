@@ -17,8 +17,8 @@ export function EditorBar(props) {
     return (
         <div className="editor-bar">
             Editor Bar!
-            <button onClick={() => { actionAddLine()}}>Add line</button>
-            <button>Remove line</button>
+            <button onClick={actionAddLine}>Add line</button>
+            <button onClick={actionRemoveLine}>Remove line</button>
         </div>
     )
 }
