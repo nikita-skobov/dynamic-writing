@@ -1,11 +1,13 @@
 import { combineReducers } from 'redux'
 
+
 const initialStates = {
     userProfile: {
         isMobile: false,
     },
     editor: {
-        lines: ['dsa'],
+        lineMap: {'a': 0},
+        lines: [{ id: 'a'}],
     },
 }
 
