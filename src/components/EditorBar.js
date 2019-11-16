@@ -3,10 +3,22 @@ import { connect } from 'react-redux'
 
 import './EditorBar.css'
 
+import {
+    addLine,
+    removeLine
+} from '../actions/editor'
+
 export function EditorBar(props) {
+    const {
+        actionAddLine,
+        actionRemoveLine,
+    } = props
+
     return (
         <div className="editor-bar">
             Editor Bar!
+            <button onClick={() => { actionAddLine()}}>Add line</button>
+            <button>Remove line</button>
         </div>
     )
 }
@@ -18,4 +30,9 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps)(EditorBar)
+const mapActionsToProps = {
+    actionAddLine: addLine,
+    actionRemoveLine: removeLine,
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(EditorBar)

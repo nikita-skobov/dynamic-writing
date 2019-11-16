@@ -6,7 +6,7 @@ import EditorBar from './EditorBar'
 
 export function Editor(props) {
     const {
-        lines
+        lines,
     } = props.editor
     
     return (

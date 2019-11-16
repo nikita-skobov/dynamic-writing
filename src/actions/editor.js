@@ -1,12 +1,18 @@
 import {
-    EDITOR_ENTER_PRESS,
+    EDITOR_ADD_LINE,
+    EDITOR_REMOVE_LINE,
 } from '../constants'
 
-export function enterPress(id) {
+
+export function addLine() {
     return {
-        type: EDITOR_ENTER_PRESS,
-        payload: {
-            id,
-        }
+        type: EDITOR_ADD_LINE,
+    }
+}
+
+export function removeLine(id) {
+    return {
+        type: EDITOR_REMOVE_LINE,
+        payload: { id },
     }
 }
