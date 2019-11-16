@@ -1,0 +1,34 @@
+{
+  "name": "dynamic-writing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "react-scripts start",
+    "build": "cross-env GENERATE_SOURCEMAP=false PUBLIC_URL='/' react-scripts build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikita-skobov/dynamic-writing.git"
+  },
+  "author": "Nikita Skobov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nikita-skobov/dynamic-writing/issues"
+  },
+  "homepage": "https://github.com/nikita-skobov/dynamic-writing#readme",
+  "dependencies": {
+    "react": "^16.12.0",
+    "react-app-polyfill": "^1.0.4",
+    "react-dom": "^16.12.0",
+    "react-redux": "^7.1.3",
+    "react-router-dom": "^5.1.2",
+    "redux": "^4.0.4",
+    "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "cross-env": "^6.0.3",
+    "react-scripts": "^3.2.0"
+  }
+}
