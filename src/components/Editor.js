@@ -17,7 +17,7 @@ export function Editor(props) {
                 </div>
                 <div className="col">
                     <h1>Tessst</h1>
-                    {lines.map(obj => <Line {...obj} />)}
+                    {lines.map(obj => <Line key={obj.id} {...obj} />)}
                 </div>
             </div>
         </div>
