@@ -7,6 +7,7 @@ export function Line(props) {
     return (
         <div className="input-group mb-2">
             <TextareaAutosize
+                disabled
                 className="form-control"
                 defaultValue={props.value}
             />

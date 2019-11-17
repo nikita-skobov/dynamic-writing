@@ -12,3 +12,8 @@ textarea, textarea:focus {
     box-shadow: none !important;
     -webkit-box-shadow: none !important;
 }
+
+textarea:disabled {
+    background-color: inherit !important;
+    opacity: inherit !important;
+}

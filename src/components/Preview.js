@@ -14,9 +14,25 @@ export class Preview extends React.Component {
         }
 
         this.endTransition = this.endTransition.bind(this)
+        this.changeLine = this.changeLine.bind(this)
     }
 
     endTransition() {
+        const {
+            lineList,
+        } = this.props
+        const {
+            currentLine,
+        } = this.state
+
+        if (lineList[currentLine].delayDuration > 0) {
+            setTimeout(() => {
+                this.changeLine()
+            }, lineList[currentLine].delayDuration)
+        }
+    }
+
+    changeLine() {
         this.setState((prevState) => {
             const {
                 lineList
