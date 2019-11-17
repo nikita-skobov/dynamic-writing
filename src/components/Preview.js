@@ -17,6 +17,26 @@ export class Preview extends React.Component {
         this.changeLine = this.changeLine.bind(this)
     }
 
+    componentDidMount() {
+        const {
+            isTransitioning
+        } = this.state
+
+        if (!isTransitioning) {
+            this.endTransition()
+        }
+    }
+
+    componentDidUpdate() {
+        const {
+            isTransitioning
+        } = this.state
+
+        if (!isTransitioning) {
+            this.endTransition()
+        }
+    }
+
     endTransition() {
         const {
             lineList,
@@ -29,6 +49,10 @@ export class Preview extends React.Component {
             setTimeout(() => {
                 this.changeLine()
             }, lineList[currentLine].delayDuration)
+        } else {
+            if (currentLine + 1 < lineList.length) {
+                this.changeLine()
+            }
         }
     }
 
