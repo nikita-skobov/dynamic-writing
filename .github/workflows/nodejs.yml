@@ -1,0 +1,44 @@
+name: Node CI
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: npm install, build, and test
+      run: |
+        npm install
+        npm run build
+        ./deployment/gzip_all.sh
+      env:
+        CI: false
+    - name: aws setup
+      uses: actions/aws/cli@4ebe93e938e5a1221032aa7754ef76074f013911
+      env:
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_ACCESS_KEY_ID: ${{ secrets. AWS_ACCESS_KEY_ID }}
+    - name: aws deploy
+      run: |
+        env | grep AWS
+        env | grep BUCKET
+        aws s3 rm s3://$MY_BUCKET --recursive
+        ./deployment/deploy_all.sh --bucket=$MY_BUCKET --ttl=public,max-age=40
+      env:
+        MY_BUCKET: ${{ secrets.S3_BUCKET }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_ACCESS_KEY_ID: ${{ secrets. AWS_ACCESS_KEY_ID }}
