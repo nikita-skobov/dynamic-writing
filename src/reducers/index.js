@@ -4,6 +4,9 @@ import {
     getIndexFromProperty,
     generateId,
 } from '../utils'
+import {
+    makeLine,
+} from '../utils/lines'
 
 import {
     EDITOR_ADD_LINE,
@@ -16,8 +19,9 @@ const initialStates = {
         isMobile: false,
     },
     editor: {
+        isPreviewing: false,
         currentLine: 0,
-        lines: [{ id: 'a', isFocused: true }],
+        lines: [makeLine()],
     },
 }
 
@@ -55,14 +59,10 @@ export function editor(
             return newState
         }
         case EDITOR_ADD_LINE: {
-            const id = generateId()
+            const lineObj = makeLine()
             const { currentLine } = state
             const newState = { ...state }
             newState.lines[currentLine].isFocused = false
-            const lineObj = {
-                id,
-                isFocused: true,
-            }
 
             newState.lines.splice(currentLine + 1, 0, lineObj)
             newState.currentLine = currentLine + 1
