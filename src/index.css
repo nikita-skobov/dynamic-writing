@@ -19,7 +19,11 @@ textarea:disabled {
 }
 
 textarea.form-control {
-    color: black;
+    color: #495057 !important;
+}
+
+textarea.form-control:focus {
+    color: #25282c !important;
 }
 
 .w-90 {

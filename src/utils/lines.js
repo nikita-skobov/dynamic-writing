@@ -13,5 +13,6 @@ export function makeLine(isFocused = true) {
         transitionDuration,
         delayDuration,
         isFocused,
+        value: '...',
     }
 }
