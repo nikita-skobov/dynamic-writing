@@ -6,90 +6,73 @@ import TextareaAutosize from 'react-textarea-autosize'
 import { changeActiveLine } from '../actions/editor'
 
 
-// export class Line extends React.Component {
-//     constructor(props) {
-//         super(props)
-//         this.inputFocus = utilizeFocus()
-//     }
+export class Line extends React.Component {
+    constructor(props) {
+        super(props)
 
-//     componentDidMount() {
-//         console.log('line mounted!')
-//         if (this.props.isFocused) {
-//             console.log(this.inputFocus)
-//             this.inputFocus.setFocus()
-//         }
-//     }
-//     render() {
-//         const {
-//             id,
-//             actionChangeLine,
-//         } = this.props
-    
-//         console.log('rendering line!')
-//         // actionSetFocusCallback(id, setInputFocus)
-    
-//         return (
-//             <div className="input-group mb-2">
-//                 <TextareaAutosize
-//                     onClick={() => { actionChangeLine(id) }}
-//                     ref={this.inputFocus.ref}
-//                     className="form-control"
-//                     defaultValue="dsadsadsa"
-//                 />
-//             </div>
-//         )
-//     }
-// }
-
-export function Line(props) {
-    const {
-        id,
-        isFocused,
-        actionChangeLine,
-    } = props
-
-    if (isFocused) {
-        console.log(`I AM ${id}, and I AM FOCUESED!`)
+        this.inputRef = React.createRef()
     }
 
-    return (
-        <div className="input-group mb-2">
-            <TextareaAutosize
-                autoFocus={isFocused}
-                onClick={() => { actionChangeLine(id) }}
-                className="form-control"
-                defaultValue={JSON.stringify({ id, isFocused })}
-            />
-        </div>
-    )
+    componentDidMount() {
+        if (this.props.hasFocus) {
+            console.log('focusing because mount')
+            this.inputRef.current && this.inputRef.current.focus()
+        }
+    }
+
+    componentDidUpdate() {
+        if (this.props.hasFocus) {
+            console.log('focusing because update')
+            this.inputRef.current && this.inputRef.current.focus()
+        }
+    }
+
+    render() {
+        const {
+            id,
+            hasFocus,
+            actionChangeLine,
+        } = this.props
+    
+        return (
+            <div className="input-group mb-2">
+                <TextareaAutosize
+                    inputRef={this.inputRef}
+                    onClick={() => { actionChangeLine(id) }}
+                    className="form-control"
+                    defaultValue={JSON.stringify({ id, hasFocus })}
+                />
+            </div>
+        )
+    }
 }
 
-// const mapStateToProps = (state, ownProps) => {
-//     const { id } = ownProps
+const mapStateToProps = (state, ownProps) => {
+    const { id } = ownProps
 
-//     let lineIndex = -1
+    let lineIndex = -1
 
-//     for (let i = 0; i < state.editor.lines.length; i += 1) {
-//         if (state.editor.lines[i].id === id) {
-//             lineIndex = i
-//             break
-//         }
-//     }
+    for (let i = 0; i < state.editor.lines.length; i += 1) {
+        if (state.editor.lines[i].id === id) {
+            lineIndex = i
+            break
+        }
+    }
 
-//     console.log(`mapping state to props!, line id: ${id}, index is: ${lineIndex}`)
+    if (lineIndex === -1) {
+        // this should never happen...
+        return ownProps
+    }
 
-//     if (lineIndex === -1) {
-//         // this should never happen...
-//         return ownProps
-//     }
+    return {
+        hasFocus: state.editor.lines[lineIndex].isFocused,
+        ...ownProps,
+    }
+}
 
-//     const newState = { ...state.editor.lines[lineIndex], numLines: state.editor.lines.length }
-
-//     return newState
-// }
 
 const mapActionsToProps = {
     actionChangeLine: changeActiveLine,
 }
 
-export default connect(undefined, mapActionsToProps)(Line)
+export default connect(mapStateToProps, mapActionsToProps)(Line)
