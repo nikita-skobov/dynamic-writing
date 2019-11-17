@@ -35,6 +35,7 @@ export class Popover extends React.Component {
 
         const list = [
             <input
+                disabled={this.props.disabled}
                 key="a"
                 className={this.props.buttonClass}
                 type="button"

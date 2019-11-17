@@ -28,6 +28,12 @@ export function EditorBar(props) {
             <input
                 className="w-100"
                 type="button"
+                onClick={() => { actionPreview(!isPreviewing) }}
+                value={isPreviewing ? 'Cancel' : 'Preview'}
+            />
+            <input
+                className="w-100"
+                type="button"
                 disabled={isPreviewing}
                 onClick={() => { !isPreviewing && actionAddLine() }}
                 value="Add line"
@@ -39,15 +45,10 @@ export function EditorBar(props) {
                 onClick={() => { !isPreviewing && actionRemoveLine(currentId) }}
                 value="Remove Line"
             />
-            <input
-                className="w-100"
-                type="button"
-                onClick={() => { actionPreview(!isPreviewing) }}
-                value={isPreviewing ? 'Cancel' : 'Preview'}
-            />
             <Popover 
                 buttonClass="w-100"
                 buttonText="Line Settings"
+                disabled={isPreviewing}
                 onOpen={() => { actionPopoverIsOn(true) }}
                 onClose={() => { actionPopoverIsOn(false) }}
             >
