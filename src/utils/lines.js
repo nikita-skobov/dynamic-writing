@@ -5,7 +5,7 @@ import {
 export function makeLine(isFocused = true) {
     const id = generateId()
 
-    const transitionDuration = 500
+    const transitionDuration = 150
     const delayDuration = 1000
 
     return {

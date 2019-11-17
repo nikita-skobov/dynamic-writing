@@ -8,6 +8,8 @@ export class Preview extends React.Component {
     constructor(props) {
         super(props)
 
+        this.isMount = true
+
         this.state = {
             currentLine: 0,
             isTransitioning: props.lineList[0].transitionDuration > 0,
@@ -15,6 +17,10 @@ export class Preview extends React.Component {
 
         this.endTransition = this.endTransition.bind(this)
         this.changeLine = this.changeLine.bind(this)
+    }
+
+    componentWillUnmount() {
+        this.isMount = false
     }
 
     componentDidMount() {
@@ -47,17 +53,17 @@ export class Preview extends React.Component {
 
         if (lineList[currentLine].delayDuration > 0) {
             setTimeout(() => {
-                this.changeLine()
+                this.isMount && this.changeLine()
             }, lineList[currentLine].delayDuration)
         } else {
             if (currentLine + 1 < lineList.length) {
-                this.changeLine()
+                this.isMount && this.changeLine()
             }
         }
     }
 
     changeLine() {
-        this.setState((prevState) => {
+        this.isMount && this.setState((prevState) => {
             const {
                 lineList
             } = this.props

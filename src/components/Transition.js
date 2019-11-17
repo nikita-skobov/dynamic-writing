@@ -5,6 +5,7 @@ export class Transition extends React.Component {
         super(props)
 
         this.delay = 10
+        this.isMount = true
 
         this.state = {
             duration: props.duration,
@@ -15,6 +16,10 @@ export class Transition extends React.Component {
         this.adjustAlpha = this.adjustAlpha.bind(this)
     }
 
+    componentWillUnmount() {
+        this.isMount = false
+    }
+
     adjustAlpha() {
         const {
             step,
@@ -23,7 +28,7 @@ export class Transition extends React.Component {
 
         let newAlpha = alpha
 
-        this.setState((prevState) => {
+        this.isMount && this.setState((prevState) => {
             newAlpha = prevState.alpha + step
             return {
                 ...prevState,
@@ -32,10 +37,10 @@ export class Transition extends React.Component {
         }, () => {
             if (newAlpha < 1) {
                 setTimeout(() => {
-                    this.adjustAlpha()
+                    this.isMount && this.adjustAlpha()
                 }, this.delay)
             } else {
-                this.props.doneCallback && this.props.doneCallback()
+                this.props.doneCallback && this.isMount && this.props.doneCallback()
             }
         })
 
@@ -43,7 +48,7 @@ export class Transition extends React.Component {
 
     componentDidMount() {
         setTimeout(() => {
-            this.adjustAlpha()
+            this.isMount && this.adjustAlpha()
         }, this.delay)
     }
 
