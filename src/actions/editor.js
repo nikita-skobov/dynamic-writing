@@ -5,6 +5,8 @@ import {
     EDITOR_PREVIEW,
     LINE_CHANGE,
     LINE_TRANSITION_UPDATE,
+    LINE_DELAY_UPDATE,
+    LINE_PROP_UPDATE,
     POPOVER_TOGGLE,
 } from '../constants'
 
@@ -74,6 +76,27 @@ export function changeTransition(id, transitionDuration) {
         payload: {
             id,
             transitionDuration,
+        }
+    }
+}
+
+export function changeLineProp(id, propName, newValue) {
+    return {
+        type: LINE_PROP_UPDATE,
+        payload: {
+            id,
+            propName,
+            newValue,
+        }
+    }
+}
+
+export function changeDelay(id, delayDuration) {
+    return {
+        type: LINE_DELAY_UPDATE,
+        payload: {
+            id,
+            delayDuration,
         }
     }
 }

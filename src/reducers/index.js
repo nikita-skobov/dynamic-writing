@@ -16,6 +16,7 @@ import {
     LINE_CHANGE,
     LINE_TRANSITION_UPDATE,
     POPOVER_TOGGLE,
+    LINE_PROP_UPDATE
 } from '../constants'
 
 const initialLine = makeLine()
@@ -83,10 +84,11 @@ export function editor(
     action,
 ) {
     switch (action.type) {
-        case LINE_TRANSITION_UPDATE: {
+        case LINE_PROP_UPDATE: {
             const {
                 id,
-                transitionDuration,
+                propName,
+                newValue,
             } = action.payload
 
             const lineIndex = getIndexFromProperty(state.lines, 'id', id)
@@ -95,7 +97,7 @@ export function editor(
             }
             
             const newState = { ...state }
-            newState.lines[lineIndex].transitionDuration = transitionDuration
+            newState.lines[lineIndex][propName] = newValue
             return newState
         }
         case POPOVER_TOGGLE: {

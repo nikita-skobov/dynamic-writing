@@ -8,7 +8,7 @@ import 'rc-slider/assets/index.css'
 import {
     getIndexFromProperty,
 } from '../utils'
-import { changeTransition } from '../actions/editor'
+import { changeLineProp } from '../actions/editor'
 
 const SliderWithTooltip = createSliderWithTooltip(Slider)
 
@@ -17,8 +17,10 @@ export class LineSettings extends React.Component {
         super(props)
 
         this.defaultTransitionDuration = props.transitionDuration
+        this.defaultDelayDuration = props.delayDuration
         this.id = props.id
         this.actionChangeTransition = props.actionChangeTransition
+        this.actionChangeLineProp = props.actionChangeLineProp
     }
 
     shouldComponentUpdate() {
@@ -34,8 +36,16 @@ export class LineSettings extends React.Component {
                         min={0}
                         max={5000}
                         step={100}
-                        onChange={(val) => { this.actionChangeTransition(this.id, val) }}
+                        onChange={(val) => { this.actionChangeLineProp(this.id, 'transitionDuration', val) }}
                         defaultValue={this.defaultTransitionDuration}
+                    />
+                    <label>Delay Duration (milliseconds)</label>
+                    <SliderWithTooltip
+                        min={0}
+                        max={15000}
+                        step={100}
+                        onChange={(val) => { this.actionChangeLineProp(this.id, 'delayDuration', val) }}
+                        defaultValue={this.defaultDelayDuration}
                     />
                 </div>
             </div>
@@ -55,11 +65,12 @@ const mapStateToProps = (state, ownProps) => {
     return {
         ...ownProps,
         transitionDuration: state.editor.lines[lineIndex].transitionDuration,
+        delayDuration: state.editor.lines[lineIndex].delayDuration,
     }
 }
 
 const mapActionsToProps = {
-    actionChangeTransition: changeTransition,
+    actionChangeLineProp: changeLineProp,
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(LineSettings)
