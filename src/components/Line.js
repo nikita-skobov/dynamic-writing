@@ -48,6 +48,10 @@ export function Line(props) {
         actionChangeLine,
     } = props
 
+    if (isFocused) {
+        console.log(`I AM ${id}, and I AM FOCUESED!`)
+    }
+
     return (
         <div className="input-group mb-2">
             <TextareaAutosize

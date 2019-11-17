@@ -1,0 +1,11 @@
+.editor-bar {
+    position: fixed;
+    height: 100%;
+    width: 25%;
+}
+
+.editor-main {
+    left: 25%;
+    width: 75%;
+    position: relative;
+}

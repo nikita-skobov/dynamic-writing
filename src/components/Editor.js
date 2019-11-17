@@ -4,21 +4,21 @@ import { connect } from 'react-redux'
 import Line from './Line'
 import EditorBar from './EditorBar'
 
+import './Editor.css'
+
 export function Editor(props) {
     const {
         lines,
     } = props.editor
-    
+
     return (
-        <div className="container-fluid">
-            <div className="row">
-                <div className="col-2">
-                    <EditorBar />
-                </div>
-                <div className="col">
-                    <h1>Tessst</h1>
-                    {lines.map(obj => <Line key={obj.id} {...obj} />)}
-                </div>
+        <div>
+            <div className="editor-bar">
+                <EditorBar />
+            </div>
+            <div className="editor-main">
+                <h1>Tessst</h1>
+                {lines.map(obj => <Line key={obj.id} {...obj} />)}
             </div>
         </div>
     )

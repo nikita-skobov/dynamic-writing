@@ -1,8 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import './EditorBar.css'
-
 import {
     addLine,
     removeLine
@@ -12,11 +10,13 @@ export function EditorBar(props) {
     const {
         actionAddLine,
         actionRemoveLine,
+        currentId,
     } = props
 
     return (
-        <div className="editor-bar">
-            Editor Bar!
+        <div>
+            Editor Bar!<br />
+            Currently selected: {currentId}<br />
             <button onClick={actionAddLine}>Add line</button>
             <button onClick={actionRemoveLine}>Remove line</button>
         </div>
@@ -24,7 +24,12 @@ export function EditorBar(props) {
 }
 
 const mapStateToProps = (state, ownProps) => {
+    const {
+        currentLine
+    } = state.editor
+
     return {
+        currentId: state.editor.lines[currentLine].id,
         editor: state.editor,
         ...ownProps,
     }
