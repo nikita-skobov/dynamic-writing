@@ -45,6 +45,10 @@ export class Popover extends React.Component {
 
         if (open) {
             list.push(
+                <div
+                    onClick={this.toggleOpen}
+                    style={{ top: 0, left: 0, width: '100vw', position: 'absolute', height: '100vh' }}
+                />,
                 <div className="popover-box">
                     {this.props.children}
                 </div>
