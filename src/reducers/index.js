@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 
 import {
+    getIndexFromProperty,
     generateId,
 } from '../utils'
 
@@ -38,14 +39,8 @@ export function editor(
         case EDITOR_LINE_CHANGE: {
             const newState = { ...state }
             const { id } = action.payload
-            let lineIndex = -1
 
-            for (let i = 0; i < state.lines.length; i += 1) {
-                if (state.lines[i].id === id) {
-                    lineIndex = i
-                    break
-                }
-            }
+            const lineIndex = getIndexFromProperty(state.lines, 'id', id)
 
             if (lineIndex === -1) {
                 return state

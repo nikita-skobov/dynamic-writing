@@ -4,6 +4,9 @@ import { connect } from 'react-redux'
 import TextareaAutosize from 'react-textarea-autosize'
 
 import { changeActiveLine } from '../actions/editor'
+import {
+    getIndexFromProperty
+} from '../utils'
 
 
 const backgroundString = 'linear-gradient(to right, rgba(31, 226, 58, 0.15), rgba(31, 226, 58, 0), #0000, #0000, #0000, #0000, #0000, #0000, #0000, #0000, #0000, #0000, #0000, #0000, #0000, #0000, #0000, #0000, #0000, #0000, #0000, #0000)'
@@ -68,15 +71,7 @@ export class Line extends React.Component {
 const mapStateToProps = (state, ownProps) => {
     const { id } = ownProps
     
-    let lineIndex = -1
-    
-    for (let i = 0; i < state.editor.lines.length; i += 1) {
-        if (state.editor.lines[i].id === id) {
-            lineIndex = i
-            break
-        }
-    }
-    
+    const lineIndex = getIndexFromProperty(state.editor.lines, 'id', id)
     if (lineIndex === -1) {
         // this should never happen...
         return ownProps
