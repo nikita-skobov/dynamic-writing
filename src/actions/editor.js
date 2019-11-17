@@ -10,6 +10,11 @@ import {
     makeLine,
 } from '../utils/lines'
 
+import {
+    store
+} from '../index'
+
+
 export function addLine() {
     const lineObj = makeLine()
     return {
@@ -39,10 +44,14 @@ export function changeActiveLine(id) {
 }
 
 export function preview(on) {
+    const {
+        lines
+    } = store.getState()
     return {
         type: EDITOR_PREVIEW,
         payload: {
             on,
+            lines,
         }
     }
 }

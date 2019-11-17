@@ -13,7 +13,7 @@ import ReduxApp from './components/App'
 import { createEnhancers, setupStore } from './setupStore'
 
 
-const store = setupStore(
+export const store = setupStore(
   createEnhancers([thunk]),
 )
 

@@ -52,6 +52,7 @@ export class LineEdit extends React.Component {
             id,
             actionChangeLine,
             actionLineUpdated,
+            value,
         } = this.props
         const {
             hasFocus,
@@ -67,7 +68,7 @@ export class LineEdit extends React.Component {
                     onClick={() => { actionChangeLine(id) }}
                     onChange={({ target }) => { actionLineUpdated(id, target.value) }}
                     className="form-control"
-                    defaultValue={JSON.stringify({ id, hasFocus })}
+                    defaultValue={value || JSON.stringify({ id, hasFocus })}
                 />
             </div>
         )

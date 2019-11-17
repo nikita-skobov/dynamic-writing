@@ -81,7 +81,7 @@ export function editor(
 ) {
     switch (action.type) {
         case EDITOR_PREVIEW: {
-            const { on } = action.payload
+            const { on, lines } = action.payload
             if (on === state.isPreviewing) {
                 // if set preview to on, but preview
                 // is already on do nothing. (and vice versa)
@@ -90,6 +90,18 @@ export function editor(
 
             const newState = { ...state }
             newState.isPreviewing = on
+
+            if (!on) {
+                // if turning off preview mode,
+                // set the values of the lines into the editor.lines
+                // list
+                for (let i = 0; i < newState.lines.length; i += 1) {
+                    const { id } = newState.lines[i]
+                    const value = lines[id]
+                    newState.lines[i].value = value
+                }
+            }
+
             return newState
         }
         case EDITOR_LINE_CHANGE: {
