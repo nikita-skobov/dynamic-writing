@@ -17,8 +17,8 @@ export function EditorBar(props) {
         <div>
             Editor Bar!<br />
             Currently selected: {currentId}<br />
-            <button onClick={actionAddLine}>Add line</button>
-            <button onClick={actionRemoveLine}>Remove line</button>
+            <input type="button" onClick={actionAddLine} value="Add line" />
+            <input type="button" onClick={actionRemoveLine} value="Remove Line" />
         </div>
     )
 }
