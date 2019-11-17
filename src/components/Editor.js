@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import Line from './Line'
+import Preview from './Preview'
 import LineEdit from './LineEdit'
 import EditorBar from './EditorBar'
 
@@ -12,6 +13,21 @@ export function Editor(props) {
         lines,
         isPreviewing,
     } = props.editor
+
+    if (isPreviewing) {
+        return (
+            <div>
+                <div className="editor-bar">
+                    <EditorBar />
+                </div>
+                <div className="editor-main">
+                    <h1>Tessst</h1>
+                    <Preview />
+                    {/* {lines.map(obj => <Line key={obj.id} />)} */}
+                </div>
+            </div>
+        )        
+    }
 
     return (
         <div>
@@ -27,7 +43,6 @@ export function Editor(props) {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    console.log(state)
     return {
         editor: state.editor,
         ...ownProps,

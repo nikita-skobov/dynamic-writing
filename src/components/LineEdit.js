@@ -8,6 +8,10 @@ import {
     getIndexFromProperty
 } from '../utils'
 
+import {
+    lineChange,
+} from '../actions/editor'
+
 
 const backgroundString = 'linear-gradient(to right, rgba(31, 226, 58, 0.15), rgba(31, 226, 58, 0), #0000, #0000, #0000, #0000, #0000, #0000, #0000, #0000, #0000, #0000, #0000, #0000, #0000, #0000, #0000, #0000, #0000, #0000, #0000, #0000)'
 
@@ -47,6 +51,7 @@ export class LineEdit extends React.Component {
         const {
             id,
             actionChangeLine,
+            actionLineUpdated,
         } = this.props
         const {
             hasFocus,
@@ -60,6 +65,7 @@ export class LineEdit extends React.Component {
                     inputRef={this.inputRef}
                     style={{ backgroundImage }}
                     onClick={() => { actionChangeLine(id) }}
+                    onChange={({ target }) => { actionLineUpdated(id, target.value) }}
                     className="form-control"
                     defaultValue={JSON.stringify({ id, hasFocus })}
                 />
@@ -88,6 +94,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapActionsToProps = {
     actionChangeLine: changeActiveLine,
+    actionLineUpdated: lineChange,
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(LineEdit)
