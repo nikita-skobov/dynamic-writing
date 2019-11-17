@@ -1,6 +1,9 @@
 import { combineReducers } from 'redux'
 
-import { generateId } from '../utils'
+import {
+    generateId,
+} from '../utils'
+
 import {
     EDITOR_ADD_LINE,
     EDITOR_REMOVE_LINE,
@@ -48,6 +51,10 @@ export function editor(
                 return state
             }
 
+            newState.lines[state.currentLine].isFocused = false
+            // set the previous selected line
+            // to not be focused
+
             newState.currentLine = lineIndex
             newState.lines[lineIndex].isFocused = true
             return newState
@@ -57,8 +64,12 @@ export function editor(
             const { currentLine } = state
             const newState = { ...state }
             newState.lines[currentLine].isFocused = false
-            newState.lines.splice(currentLine + 1, 0, { id, isFocused: true })
-            // newState.lines.push({ id, isFocused: true })
+            const lineObj = {
+                id,
+                isFocused: true,
+            }
+
+            newState.lines.splice(currentLine + 1, 0, lineObj)
             newState.currentLine = currentLine + 1
             return newState
         }
@@ -67,8 +78,8 @@ export function editor(
                 // cannot remove a line if theres only one line
                 return state
             }
+
             const lineIndex = state.currentLine
-            const { id } = state.lines[lineIndex]
             const newState = { ...state }
             newState.lines.splice(lineIndex, 1)
             newState.currentLine = 0

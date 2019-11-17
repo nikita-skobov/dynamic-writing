@@ -2,6 +2,13 @@ html,body,#root {
     height: 100%;
 }
 
-textarea {
-    resize: none;
+
+textarea, textarea:focus {
+    resize: none !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
 }
