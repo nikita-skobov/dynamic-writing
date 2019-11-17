@@ -26,6 +26,7 @@ export class LineEdit extends React.Component {
         this.state = {
             hasFocus: this.props.hasFocus
         }
+        console.log('constructing lineedit')
     }
 
     setFocus() {
@@ -43,11 +44,20 @@ export class LineEdit extends React.Component {
     componentDidMount() {
         this.setFocus()
     }
+
+    shouldComponentUpdate(newprops) {
+        console.log('should line update?')
+        console.log(newprops)
+        return newprops.shouldUpdate
+    }
+
     componentDidUpdate() {
+        console.log('line updating')
         this.setFocus()
     }
 
     render() {
+        console.log('redenring line')
         const {
             id,
             actionChangeLine,
@@ -85,10 +95,14 @@ const mapStateToProps = (state, ownProps) => {
     }
 
     const hasFocus = state.editor.lines[lineIndex].isFocused
+    console.log('mapping line edit')
+    console.log({ hasFocus, id: ownProps.id, value: ownProps.value })
 
     return {
+        shouldUpdate: !state.editor.popoverIsOpen,
         hasFocus,
-        ...ownProps,
+        id: ownProps.id,
+        value: ownProps.value,
     }
 }
 

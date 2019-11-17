@@ -17,3 +17,11 @@ textarea:disabled {
     background-color: inherit !important;
     opacity: inherit !important;
 }
+
+textarea.form-control {
+    color: black;
+}
+
+.w-90 {
+    width: 90% !important;
+}

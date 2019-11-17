@@ -23,6 +23,7 @@ const initialStates = {
         isMobile: false,
     },
     editor: {
+        popoverIsOpen: false,
         isPreviewing: false,
         currentLine: 0,
         lines: [initialLine],
@@ -80,6 +81,30 @@ export function editor(
     action,
 ) {
     switch (action.type) {
+        case 'trans': {
+            const {
+                id,
+                transitionDuration,
+            } = action.payload
+
+            const lineIndex = getIndexFromProperty(state.lines, 'id', id)
+            if (lineIndex === -1) {
+                return state
+            }
+            
+            const newState = { ...state }
+            newState.lines[lineIndex].transitionDuration = transitionDuration
+            return newState
+        }
+        case 'popover': {
+            const {
+                on,
+            } = action.payload
+            console.log(`reducer says popover is now open? ${on}`)
+            const newState = { ...state }
+            newState.popoverIsOpen = on
+            return newState
+        }
         case EDITOR_PREVIEW: {
             const { on, lines } = action.payload
             if (on === state.isPreviewing) {
