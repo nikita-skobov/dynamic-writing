@@ -82,8 +82,8 @@ export function editor(
             const lineIndex = state.currentLine
             const newState = { ...state }
             newState.lines.splice(lineIndex, 1)
-            newState.currentLine = 0
-            newState.lines[0].isFocused = true
+            newState.currentLine = lineIndex > 0 ? lineIndex - 1 : 0
+            newState.lines[newState.currentLine].isFocused = true
             return newState
         }
         default:
