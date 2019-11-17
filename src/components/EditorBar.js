@@ -5,6 +5,7 @@ import {
     addLine,
     removeLine,
     preview,
+    togglePopover,
 } from '../actions/editor'
 
 import Popover from './Popover'
@@ -19,8 +20,6 @@ export function EditorBar(props) {
         currentId,
         isPreviewing,
     } = props
-
-    console.log('rendering editorbar')
 
     return (
         <div>
@@ -52,14 +51,13 @@ export function EditorBar(props) {
                 onOpen={() => { actionPopoverIsOn(true) }}
                 onClose={() => { actionPopoverIsOn(false) }}
             >
-                <LineSettings id={currentId} transitionDuration={2000} />
+                <LineSettings id={currentId} />
             </Popover>
         </div>
     )
 }
 
 const mapStateToProps = (state, ownProps) => {
-    console.log('mapping editorbar')
     const {
         currentLine,
         isPreviewing,
@@ -76,14 +74,7 @@ const mapActionsToProps = {
     actionAddLine: addLine,
     actionRemoveLine: removeLine,
     actionPreview: preview,
-    actionPopoverIsOn: (on) => {
-        return {
-            type: 'popover',
-            payload: {
-                on,
-            }
-        }
-    },
+    actionPopoverIsOn: togglePopover,
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(EditorBar)

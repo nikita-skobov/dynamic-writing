@@ -19,7 +19,6 @@ export class Popover extends React.Component {
                 this.props.onClose()
             } else {
                 // it is closed, we are opening it
-                console.log('calling onopen')
                 this.props.onOpen()
             }
 
@@ -36,6 +35,7 @@ export class Popover extends React.Component {
 
         const list = [
             <input
+                key="a"
                 className={this.props.buttonClass}
                 type="button"
                 value={this.props.buttonText}
@@ -46,10 +46,11 @@ export class Popover extends React.Component {
         if (open) {
             list.push(
                 <div
+                    key="b"
                     onClick={this.toggleOpen}
                     style={{ top: 0, left: 0, width: '100vw', position: 'absolute', height: '100vh' }}
                 />,
-                <div className="popover-box">
+                <div key="c" className="popover-box">
                     {this.props.children}
                 </div>
             )

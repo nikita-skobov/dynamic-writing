@@ -14,6 +14,8 @@ import {
     EDITOR_LINE_CHANGE,
     EDITOR_PREVIEW,
     LINE_CHANGE,
+    LINE_TRANSITION_UPDATE,
+    POPOVER_TOGGLE,
 } from '../constants'
 
 const initialLine = makeLine()
@@ -81,7 +83,7 @@ export function editor(
     action,
 ) {
     switch (action.type) {
-        case 'trans': {
+        case LINE_TRANSITION_UPDATE: {
             const {
                 id,
                 transitionDuration,
@@ -96,11 +98,11 @@ export function editor(
             newState.lines[lineIndex].transitionDuration = transitionDuration
             return newState
         }
-        case 'popover': {
+        case POPOVER_TOGGLE: {
             const {
                 on,
             } = action.payload
-            console.log(`reducer says popover is now open? ${on}`)
+
             const newState = { ...state }
             newState.popoverIsOpen = on
             return newState

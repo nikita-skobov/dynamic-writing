@@ -4,6 +4,8 @@ import {
     EDITOR_LINE_CHANGE,
     EDITOR_PREVIEW,
     LINE_CHANGE,
+    LINE_TRANSITION_UPDATE,
+    POPOVER_TOGGLE,
 } from '../constants'
 
 import {
@@ -62,6 +64,25 @@ export function lineChange(id, value) {
         payload: {
             id,
             value,
+        }
+    }
+}
+
+export function changeTransition(id, transitionDuration) {
+    return {
+        type: LINE_TRANSITION_UPDATE,
+        payload: {
+            id,
+            transitionDuration,
+        }
+    }
+}
+
+export function togglePopover(on) {
+    return {
+        type: POPOVER_TOGGLE,
+        payload: {
+            on,
         }
     }
 }

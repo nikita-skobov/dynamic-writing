@@ -8,6 +8,7 @@ import 'rc-slider/assets/index.css'
 import {
     getIndexFromProperty,
 } from '../utils'
+import { changeTransition } from '../actions/editor'
 
 const SliderWithTooltip = createSliderWithTooltip(Slider)
 
@@ -18,7 +19,6 @@ export class LineSettings extends React.Component {
         this.defaultTransitionDuration = props.transitionDuration
         this.id = props.id
         this.actionChangeTransition = props.actionChangeTransition
-        console.log('constructing line settings')
     }
 
     shouldComponentUpdate() {
@@ -26,8 +26,6 @@ export class LineSettings extends React.Component {
     }
 
     render() {
-        console.log('rednering line settings')
-    
         return (
             <div>
                 <div className="w-90 m-auto">
@@ -61,15 +59,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapActionsToProps = {
-    actionChangeTransition: (id, transitionDuration) => {
-        return {
-            type: 'trans',
-            payload: {
-                id,
-                transitionDuration,
-            }
-        }
-    }
+    actionChangeTransition: changeTransition,
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(LineSettings)

@@ -67,6 +67,7 @@ export class Preview extends React.Component {
                 if (index === currentLine && isTransitioning) {
                     return (
                         <Transition
+                            key={line.id}
                             duration={line.transitionDuration}
                             doneCallback={this.endTransition}
                         >
@@ -74,7 +75,7 @@ export class Preview extends React.Component {
                         </Transition>
                     )
                 }
-                return <Line {...line} />
+                return <Line key={line.id} {...line} />
             }
         })
     }
