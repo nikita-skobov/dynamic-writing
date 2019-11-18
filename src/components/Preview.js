@@ -92,7 +92,7 @@ export class Preview extends React.Component {
             isTransitioning,
         } = this.state
 
-        return lineList.map((line, index) => {
+        const lineOutput = lineList.map((line, index) => {
             if (index <= currentLine) {
                 if (index === currentLine && isTransitioning) {
                     return (
@@ -108,23 +108,41 @@ export class Preview extends React.Component {
                 return <Line key={line.id} {...line} />
             }
         })
+
+        return [
+            <h1>{this.props.title.value}</h1>,
+            ...lineOutput
+        ]
     }
 }
 
 const mapStateToProps = (state, ownProps) => {
     const {
+        stateField = 'editor',
+        isPreview,
+    } = ownProps
+
+    const {
         lines,
-    } = state.editor
-    
+        title,
+    } = state[stateField]
+
+
     const lineList = [...lines]
     for (let i = 0; i < lineList.length; i += 1) {
         const lineId = lineList[i].id
         const value = state.lines[lineId]
-        lineList[i].value = value
+        if (isPreview) {
+            // in case not using the editor stateField
+            // do not get the most recent value
+            lineList[i].value = value
+        }
     }
 
     return {
-        lineList
+        lineList,
+        title,
+        isPreview,
     }
 }
 

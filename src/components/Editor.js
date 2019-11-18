@@ -7,12 +7,19 @@ import LineEdit from './LineEdit'
 import EditorBar from './EditorBar'
 
 import './Editor.css'
+import { editorTitleChange } from '../actions/editor'
 
 export function Editor(props) {
     const {
         lines,
         isPreviewing,
+        title,
     } = props.editor
+    const {
+        actionTitleChange
+    } = props
+
+    console.log('rendering editor')
 
     if (isPreviewing) {
         return (
@@ -21,8 +28,7 @@ export function Editor(props) {
                     <EditorBar />
                 </div>
                 <div className="editor-main">
-                    <h1>Tessst</h1>
-                    <Preview />
+                    <Preview isPreview={true} />
                     {/* {lines.map(obj => <Line key={obj.id} />)} */}
                 </div>
             </div>
@@ -35,7 +41,12 @@ export function Editor(props) {
                 <EditorBar />
             </div>
             <div className="editor-main">
-                <h1>Tessst</h1>
+                <input
+                    type="text"
+                    className="h1 titleform"
+                    defaultValue={title.value}
+                    onChange={({ target }) => { actionTitleChange(target.value) }}
+                />
                 {lines.map(obj => <LineEdit key={obj.id} {...obj} />)}
             </div>
         </div>
@@ -49,4 +60,8 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps)(Editor)
+const mapActionsToProps = {
+    actionTitleChange: editorTitleChange,
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(Editor)

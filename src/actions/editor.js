@@ -3,11 +3,13 @@ import {
     EDITOR_REMOVE_LINE,
     EDITOR_LINE_CHANGE,
     EDITOR_PREVIEW,
+    EDITOR_PUBLISH,
     LINE_CHANGE,
     LINE_TRANSITION_UPDATE,
     LINE_DELAY_UPDATE,
     LINE_PROP_UPDATE,
     POPOVER_TOGGLE,
+    EDITOR_TITLE_CHANGE,
 } from '../constants'
 
 import {
@@ -106,6 +108,40 @@ export function togglePopover(on) {
         type: POPOVER_TOGGLE,
         payload: {
             on,
+        }
+    }
+}
+
+export function editorPublish() {
+    const {
+        lines,
+        editor
+    } = store.getState()
+
+    const newState = { ...editor }
+    for (let i = 0; i < newState.lines.length; i += 1) {
+        const { id } = newState.lines[i]
+        const value = lines[id]
+        newState.lines[i].value = value
+        delete newState.lines[i].isFocused
+    }
+
+    console.log(JSON.stringify({ lines: newState.lines, title: newState.title }))
+
+    return {
+        type: EDITOR_PUBLISH,
+        payload: {
+            lines: newState.lines,
+            title: newState.title,
+        }
+    }
+}
+
+export function editorTitleChange(newTitle) {
+    return {
+        type: EDITOR_TITLE_CHANGE,
+        payload: {
+            newTitle,
         }
     }
 }

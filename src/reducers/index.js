@@ -16,7 +16,9 @@ import {
     LINE_CHANGE,
     LINE_TRANSITION_UPDATE,
     POPOVER_TOGGLE,
-    LINE_PROP_UPDATE
+    LINE_PROP_UPDATE,
+    EDITOR_PUBLISH,
+    EDITOR_TITLE_CHANGE
 } from '../constants'
 
 const initialLine = makeLine()
@@ -30,8 +32,30 @@ const initialStates = {
         isPreviewing: false,
         currentLine: 0,
         lines: [initialLine],
+        title: { value: 'Your Title' },
     },
     lines: { [initialLine.id]: '' },
+    homePage: {
+        title: { value: 'Sample Poem' },
+        lines: [{"id":"acuigngp","transitionDuration":150,"delayDuration":1000,"value":"This is...."},{"id":"ypohirwn","transitionDuration":150,"delayDuration":2000,"value":"an example poem...."},{"id":"ovqlxibp","transitionDuration":100,"delayDuration":0,"value":"Enjoy :)"}],
+    },
+}
+
+export function homePage(
+    state = initialStates.homePage,
+    action,
+) {
+    switch (action.type) {
+        case EDITOR_PUBLISH: {
+            const { lines, title } = action.payload
+            const newState = { ...state }
+            newState.lines = lines
+            newState.title = title
+            return newState
+        }
+        default:
+            return state
+    }
 }
 
 export function userProfile(
@@ -84,6 +108,14 @@ export function editor(
     action,
 ) {
     switch (action.type) {
+        case EDITOR_TITLE_CHANGE: {
+            const {
+                newTitle
+            } = action.payload
+            const newState = { ...state }
+            newState.title.value = newTitle
+            return newState
+        }
         case LINE_PROP_UPDATE: {
             const {
                 id,
@@ -188,6 +220,7 @@ export function editor(
 
 export default combineReducers({
     userProfile,
+    homePage,
     editor,
     lines,
 })

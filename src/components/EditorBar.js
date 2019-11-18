@@ -1,11 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
+import { NavLink } from 'react-router-dom'
+
 import {
     addLine,
     removeLine,
     preview,
     togglePopover,
+    editorPublish,
 } from '../actions/editor'
 
 import Popover from './Popover'
@@ -17,19 +20,25 @@ export function EditorBar(props) {
         actionRemoveLine,
         actionPopoverIsOn,
         actionPreview,
+        actionPublish,
         currentId,
         isPreviewing,
     } = props
 
     return (
         <div>
-            Editor Bar!<br />
-            Currently selected: {currentId}<br />
+            <NavLink to="/">To Home</NavLink>
             <input
                 className="w-100"
                 type="button"
                 onClick={() => { actionPreview(!isPreviewing) }}
                 value={isPreviewing ? 'Cancel' : 'Preview'}
+            />
+            <input
+                className="w-100"
+                type="button"
+                onClick={() => { actionPublish() }}
+                value="Publish"
             />
             <input
                 className="w-100"
@@ -76,6 +85,7 @@ const mapActionsToProps = {
     actionRemoveLine: removeLine,
     actionPreview: preview,
     actionPopoverIsOn: togglePopover,
+    actionPublish: editorPublish,
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(EditorBar)
