@@ -19,6 +19,7 @@
 
 .popover-box {
     position: relative;
+    padding: 1em;
     left: 105%;
     width: 250%;
     z-index: 3;
