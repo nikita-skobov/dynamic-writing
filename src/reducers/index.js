@@ -33,6 +33,7 @@ const initialStates = {
         currentLine: 0,
         lines: [initialLine],
         title: { value: 'Your Title' },
+        publishCount: 0,
     },
     lines: { [initialLine.id]: '' },
     homePage: {
@@ -47,6 +48,7 @@ export function homePage(
 ) {
     switch (action.type) {
         case EDITOR_PUBLISH: {
+            // return state
             const { lines, title } = action.payload
             const newState = { ...state }
             newState.lines = lines
@@ -108,6 +110,11 @@ export function editor(
     action,
 ) {
     switch (action.type) {
+        case EDITOR_PUBLISH: {
+            const newState = { ...state }
+            newState.publishCount += 1
+            return newState
+        }
         case EDITOR_TITLE_CHANGE: {
             const {
                 newTitle

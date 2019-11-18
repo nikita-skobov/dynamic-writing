@@ -6,7 +6,6 @@ import Editor from './Editor'
 import HomePage from './HomePage'
 
 export function App(props) {
-    console.log(props)
     return (
         <div className="h-100">
             <Switch>

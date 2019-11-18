@@ -23,6 +23,8 @@ export class LineEdit extends React.Component {
 
         this.setFocus = this.setFocus.bind(this)
 
+        this.publishCount = props.publishCount
+
         this.state = {
             hasFocus: this.props.hasFocus
         }
@@ -45,6 +47,12 @@ export class LineEdit extends React.Component {
     }
 
     shouldComponentUpdate(newprops) {
+        if (newprops.publishCount !== this.publishCount) {
+            // publish was just clicked, so theres a new publish
+            // count. Do not update.
+            this.publishCount = newprops.publishCount
+            return false
+        }
         return newprops.shouldUpdate
     }
 
@@ -93,6 +101,7 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         shouldUpdate: !state.editor.popoverIsOpen,
+        publishCount: state.editor.publishCount,
         hasFocus,
         id: ownProps.id,
         value: ownProps.value,

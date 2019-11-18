@@ -19,8 +19,6 @@ export function Editor(props) {
         actionTitleChange
     } = props
 
-    console.log('rendering editor')
-
     if (isPreviewing) {
         return (
             <div>
@@ -43,6 +41,9 @@ export function Editor(props) {
             <div className="editor-main">
                 <input
                     type="text"
+                    size="10"
+                    maxLength="50"
+                    style={{ width: '74%' }}
                     className="h1 titleform"
                     defaultValue={title.value}
                     onChange={({ target }) => { actionTitleChange(target.value) }}

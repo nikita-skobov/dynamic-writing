@@ -6,7 +6,6 @@ import Preview from './Preview'
 
 
 export function HomePage(props) {
-    console.log(props)
     return (
         <div>
             <NavLink to="/new">Make your own</NavLink>
