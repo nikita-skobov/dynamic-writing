@@ -11,13 +11,42 @@ export class Transition extends React.Component {
             duration: props.duration,
             alpha: 0,
             step: this.delay * (1 / props.duration),
+            charIndex: 0,
         }
 
         this.adjustAlpha = this.adjustAlpha.bind(this)
+        this.adjustChar = this.adjustChar.bind(this)
     }
 
     componentWillUnmount() {
         this.isMount = false
+    }
+
+    adjustChar() {
+        const {
+            charIndex,
+        } = this.state
+
+        let newCharIndex = charIndex
+        const delay = Math.floor(
+            this.props.duration / this.props.children.props.value.length
+        )
+
+        this.isMount && setTimeout(() => {
+            this.isMount && this.setState((prevState) => {
+                newCharIndex = prevState.charIndex + 1
+                return {
+                    ...prevState,
+                    charIndex: newCharIndex,
+                }
+            }, () => {
+                if (newCharIndex < this.props.children.props.value.length) {
+                    this.isMount && this.adjustChar()
+                } else {
+                    this.props.doneCallback && this.isMount && this.props.doneCallback()
+                }
+            })
+        }, delay)
     }
 
     adjustAlpha() {
@@ -48,23 +77,57 @@ export class Transition extends React.Component {
 
     componentDidMount() {
         setTimeout(() => {
-            this.isMount && this.adjustAlpha()
+            if (this.isMount) {
+                switch (this.props.transitionType) {
+                    case 'fade': {
+                        return this.adjustAlpha()
+                    }
+                    case 'type': {
+                        return this.adjustChar()
+                    }
+                    default:
+                        return this.adjustChar()
+                }
+            }
         }, this.delay)
     }
 
     render() {
         const {
             children,
+            transitionType = 'type',
         } = this.props
         const {
-            alpha
+            alpha,
+            charIndex,
         } = this.state
 
-        return (
-            <div style={{ opacity: alpha }}>
-                {children}
-            </div>
+        
+        if (transitionType === 'fade') {
+            return (
+                <div style={{ opacity: alpha }}>
+                    {children}
+                </div>
+            )
+        }
+
+        const newStr = children.props.value.substr(0, charIndex)
+        const newChild = React.cloneElement(
+            children,
+            {
+                key: newStr,
+                value: newStr,
+            },
         )
+        // clone the element so we can alter its value
+
+        if (transitionType === 'type') {
+            return (
+                <div>
+                    {newChild}
+                </div>
+            )
+        }
     }
 }
 
