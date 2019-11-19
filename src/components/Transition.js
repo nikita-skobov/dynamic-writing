@@ -7,6 +7,14 @@ export class Transition extends React.Component {
         this.delay = 10
         this.isMount = true
 
+        if (!this.props.transitionType) {
+            this.transitionType = 'fade'
+            // set default to fade
+        } else {
+            this.transitionType = this.props.transitionType
+        }
+        
+
         this.state = {
             duration: props.duration,
             alpha: 0,
@@ -78,15 +86,14 @@ export class Transition extends React.Component {
     componentDidMount() {
         setTimeout(() => {
             if (this.isMount) {
-                switch (this.props.transitionType) {
-                    case 'fade': {
-                        return this.adjustAlpha()
-                    }
+                switch (this.transitionType) {
                     case 'type': {
                         return this.adjustChar()
                     }
+                    case 'fade':
                     default:
-                        return this.adjustChar()
+                        // fade is default
+                        return this.adjustAlpha()
                 }
             }
         }, this.delay)
@@ -95,7 +102,6 @@ export class Transition extends React.Component {
     render() {
         const {
             children,
-            transitionType = 'type',
         } = this.props
         const {
             alpha,
@@ -103,7 +109,7 @@ export class Transition extends React.Component {
         } = this.state
 
         
-        if (transitionType === 'fade') {
+        if (this.transitionType === 'fade') {
             return (
                 <div style={{ opacity: alpha }}>
                     {children}
@@ -121,7 +127,7 @@ export class Transition extends React.Component {
         )
         // clone the element so we can alter its value
 
-        if (transitionType === 'type') {
+        if (this.transitionType === 'type') {
             return (
                 <div>
                     {newChild}
