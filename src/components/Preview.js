@@ -95,11 +95,13 @@ export class Preview extends React.Component {
         const lineOutput = lineList.map((line, index) => {
             if (index <= currentLine) {
                 if (index === currentLine && isTransitioning) {
+                    console.log(`line transition type: ${line.transitionType}`)
                     return (
                         <Transition
                             key={line.id}
                             duration={line.transitionDuration}
                             doneCallback={this.endTransition}
+                            transitionType={line.transitionType}
                         >
                             <Line {...line} />
                         </Transition>

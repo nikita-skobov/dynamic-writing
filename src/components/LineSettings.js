@@ -47,6 +47,17 @@ export class LineSettings extends React.Component {
                         onChange={(val) => { this.actionChangeLineProp(this.id, 'delayDuration', val) }}
                         defaultValue={this.defaultDelayDuration}
                     />
+                    <label>Transition Type</label>
+                    <select
+                        defaultValue={this.props.transitionType}
+                        onChange={({ target }) => { this.actionChangeLineProp(this.id, 'transitionType', target.value)}}>
+                        <option value="fade">
+                            Fade
+                        </option>
+                        <option value="type">
+                            Type
+                        </option>
+                    </select>
                 </div>
             </div>
         )
@@ -66,6 +77,7 @@ const mapStateToProps = (state, ownProps) => {
         ...ownProps,
         transitionDuration: state.editor.lines[lineIndex].transitionDuration,
         delayDuration: state.editor.lines[lineIndex].delayDuration,
+        transitionType: state.editor.lines[lineIndex].transitionType,
     }
 }
 
