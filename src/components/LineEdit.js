@@ -25,6 +25,8 @@ export class LineEdit extends React.Component {
 
         this.publishCount = props.publishCount
 
+        this.firstMount = true
+
         this.state = {
             hasFocus: this.props.hasFocus
         }
@@ -33,6 +35,11 @@ export class LineEdit extends React.Component {
     setFocus() {
         if (this.props.hasFocus) {
             this.inputRef.current && this.inputRef.current.focus()
+        }
+
+        if (this.props.hasFocus && this.firstMount) {
+            this.inputRef.current.select()
+            this.firstMount = false
         }
 
         if (this.state.hasFocus !== this.props.hasFocus) {
