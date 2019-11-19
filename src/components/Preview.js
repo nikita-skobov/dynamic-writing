@@ -92,28 +92,25 @@ export class Preview extends React.Component {
             isTransitioning,
         } = this.state
 
-        const lineOutput = lineList.map((line, index) => {
-            if (index <= currentLine) {
-                if (index === currentLine && isTransitioning) {
-                    console.log(`line transition type: ${line.transitionType}`)
-                    return (
-                        <Transition
-                            key={line.id}
-                            duration={line.transitionDuration}
-                            doneCallback={this.endTransition}
-                            transitionType={line.transitionType}
-                        >
-                            <Line {...line} />
-                        </Transition>
-                    )
-                }
-                return <Line key={line.id} {...line} />
-            }
-        })
-
         return [
-            <h1>{this.props.title.value}</h1>,
-            ...lineOutput
+            <h1 key="title">{this.props.title.value}</h1>,
+            lineList.map((line, index) => {
+                if (index <= currentLine) {
+                    if (index === currentLine && isTransitioning) {
+                        return (
+                            <Transition
+                                key={`transition-${line.id}`}
+                                duration={line.transitionDuration}
+                                doneCallback={this.endTransition}
+                                transitionType={line.transitionType}
+                            >
+                                <Line {...line} />
+                            </Transition>
+                        )
+                    }
+                    return <Line key={line.id} {...line} />
+                }
+            })
         ]
     }
 }
