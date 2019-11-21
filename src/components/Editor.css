@@ -28,3 +28,8 @@
     border: 1px solid #0000003d;
     border-radius: 4px;
 }
+
+.line-padding {
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+}
