@@ -194,11 +194,22 @@ export function editor(
         }
         case LINE_SETTING_DEFAULT: {
             const {
-                lineObj
+                lineObj,
+                applyToAll,
             } = action.payload
 
             const newState = { ...state }
-            newState.defaultSettings = lineObj
+
+            if (applyToAll) {
+                newState.lines.forEach((line) => {
+                    Object.keys(lineObj).forEach((key) => {
+                        const value = lineObj[key]
+                        line[key] = value
+                    })
+                })
+            } else {                
+                newState.defaultSettings = lineObj
+            }
 
             return newState
         }

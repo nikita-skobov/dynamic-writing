@@ -61,6 +61,8 @@ export class LineSettings extends React.Component {
                     </select>
                     <br />
                     <input type="button" value="Save as default" onClick={() => { this.actionSetDefaultSettings(this.id) }} />
+                    <br />
+                    <input type="button" value="Apply to all" onClick={() => { this.actionSetDefaultSettings(this.id, true) }} />
                 </div>
             </div>
         )

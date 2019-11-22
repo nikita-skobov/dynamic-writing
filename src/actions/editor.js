@@ -117,7 +117,7 @@ export function togglePopover(on) {
     }
 }
 
-export function lineSettingDefault(id) {
+export function lineSettingDefault(id, applyToAll = false) {
     const {
         editor,
     } = store.getState()
@@ -135,6 +135,7 @@ export function lineSettingDefault(id) {
         type: LINE_SETTING_DEFAULT,
         payload: {
             lineObj,
+            applyToAll,
         }
     }
 }
