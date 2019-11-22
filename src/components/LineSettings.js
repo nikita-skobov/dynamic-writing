@@ -32,37 +32,45 @@ export class LineSettings extends React.Component {
         return (
             <div>
                 <div className="w-90 m-auto">
-                    <label>Transition Duration (milliseconds)</label>
-                    <SliderWithTooltip
-                        min={0}
-                        max={5000}
-                        step={100}
-                        onChange={(val) => { this.actionChangeLineProp(this.id, 'transitionDuration', val) }}
-                        defaultValue={this.defaultTransitionDuration}
-                    />
-                    <label>Delay Duration (milliseconds)</label>
-                    <SliderWithTooltip
-                        min={0}
-                        max={15000}
-                        step={100}
-                        onChange={(val) => { this.actionChangeLineProp(this.id, 'delayDuration', val) }}
-                        defaultValue={this.defaultDelayDuration}
-                    />
-                    <label>Transition Type</label>
-                    <select
-                        defaultValue={this.props.transitionType}
-                        onChange={({ target }) => { this.actionChangeLineProp(this.id, 'transitionType', target.value)}}>
-                        <option value="fade">
-                            Fade
-                        </option>
-                        <option value="type">
-                            Type
-                        </option>
-                    </select>
-                    <br />
-                    <input type="button" value="Save as default" onClick={() => { this.actionSetDefaultSettings(this.id) }} />
-                    <br />
-                    <input type="button" value="Apply to all" onClick={() => { this.actionSetDefaultSettings(this.id, true) }} />
+                    <div className="form-group">
+                        <label>Transition Duration (milliseconds)</label>
+                        <SliderWithTooltip
+                            min={0}
+                            max={5000}
+                            step={100}
+                            onChange={(val) => { this.actionChangeLineProp(this.id, 'transitionDuration', val) }}
+                            defaultValue={this.defaultTransitionDuration}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Delay Duration (milliseconds)</label>
+                        <SliderWithTooltip
+                            min={0}
+                            max={15000}
+                            step={100}
+                            onChange={(val) => { this.actionChangeLineProp(this.id, 'delayDuration', val) }}
+                            defaultValue={this.defaultDelayDuration}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Transition Type</label>
+                        <select
+                            defaultValue={this.props.transitionType}
+                            onChange={({ target }) => { this.actionChangeLineProp(this.id, 'transitionType', target.value)}}>
+                            <option value="fade">
+                                Fade
+                            </option>
+                            <option value="type">
+                                Type
+                            </option>
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <input type="button" value="Save as default" onClick={() => { this.actionSetDefaultSettings(this.id) }} />
+                    </div>
+                    <div className="form-group">
+                        <input type="button" value="Apply to all" onClick={() => { this.actionSetDefaultSettings(this.id, true) }} />
+                    </div>
                 </div>
             </div>
         )
