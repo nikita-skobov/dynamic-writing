@@ -8,7 +8,7 @@ import 'rc-slider/assets/index.css'
 import {
     getIndexFromProperty,
 } from '../utils'
-import { changeLineProp } from '../actions/editor'
+import { changeLineProp, lineSettingDefault } from '../actions/editor'
 
 const SliderWithTooltip = createSliderWithTooltip(Slider)
 
@@ -21,6 +21,7 @@ export class LineSettings extends React.Component {
         this.id = props.id
         this.actionChangeTransition = props.actionChangeTransition
         this.actionChangeLineProp = props.actionChangeLineProp
+        this.actionSetDefaultSettings = props.actionSetDefaultSettings
     }
 
     shouldComponentUpdate() {
@@ -58,6 +59,8 @@ export class LineSettings extends React.Component {
                             Type
                         </option>
                     </select>
+                    <br />
+                    <input type="button" value="Save as default" onClick={() => { this.actionSetDefaultSettings(this.id) }} />
                 </div>
             </div>
         )
@@ -83,6 +86,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapActionsToProps = {
     actionChangeLineProp: changeLineProp,
+    actionSetDefaultSettings: lineSettingDefault,
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(LineSettings)

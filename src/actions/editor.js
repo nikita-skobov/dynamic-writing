@@ -10,7 +10,12 @@ import {
     LINE_PROP_UPDATE,
     POPOVER_TOGGLE,
     EDITOR_TITLE_CHANGE,
+    LINE_SETTING_DEFAULT,
 } from '../constants'
+
+import {
+    getIndexFromProperty,
+} from '../utils'
 
 import {
     makeLine,
@@ -108,6 +113,28 @@ export function togglePopover(on) {
         type: POPOVER_TOGGLE,
         payload: {
             on,
+        }
+    }
+}
+
+export function lineSettingDefault(id) {
+    const {
+        editor,
+    } = store.getState()
+
+    const lineIndex = getIndexFromProperty(editor.lines, 'id', id)
+    if (lineIndex === -1) {
+        return { type: 'NONE' }
+    }
+
+    const lineObj = { ...editor.lines[lineIndex] }
+    delete lineObj.id
+    delete lineObj.isFocused
+
+    return {
+        type: LINE_SETTING_DEFAULT,
+        payload: {
+            lineObj,
         }
     }
 }

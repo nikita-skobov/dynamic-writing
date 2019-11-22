@@ -18,7 +18,8 @@ import {
     POPOVER_TOGGLE,
     LINE_PROP_UPDATE,
     EDITOR_PUBLISH,
-    EDITOR_TITLE_CHANGE
+    EDITOR_TITLE_CHANGE,
+    LINE_SETTING_DEFAULT
 } from '../constants'
 
 const initialLine = makeLine()
@@ -33,6 +34,7 @@ const initialStates = {
         currentLine: 0,
         lines: [initialLine],
         title: { value: 'Your Title' },
+        defaultSettings: undefined,
         publishCount: 0,
     },
     lines: { [initialLine.id]: '' },
@@ -190,6 +192,16 @@ export function editor(
             newState.lines[lineIndex].isFocused = true
             return newState
         }
+        case LINE_SETTING_DEFAULT: {
+            const {
+                lineObj
+            } = action.payload
+
+            const newState = { ...state }
+            newState.defaultSettings = lineObj
+
+            return newState
+        }
         case EDITOR_ADD_LINE: {
             const {
                 lineObj
@@ -198,6 +210,17 @@ export function editor(
             const { currentLine } = state
             const newState = { ...state }
             newState.lines[currentLine].isFocused = false
+
+            if (newState.defaultSettings) {
+                // if using user-applied default settings,
+                // loop through the default settings object
+                // and override the settings for this new line
+                // object
+                Object.keys(newState.defaultSettings).forEach((key) => {
+                    const value = newState.defaultSettings[key]
+                    lineObj[key] = value
+                })
+            }
 
             newState.lines.splice(currentLine + 1, 0, lineObj)
             newState.currentLine = currentLine + 1
